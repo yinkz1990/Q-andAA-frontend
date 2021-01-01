@@ -1,14 +1,20 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import * as React from 'react';
+import {ChangeEvent} from 'react';
 import { css, jsx } from '@emotion/core';
 import { fontFamily, fontSize, gray1, gray2, gray5 } from './style';
 import { UserIcon } from './icon';
+import { Link } from 'react-router-dom';
 
 
 
 
 const Header = () => {
+    const handleSearchInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+console.log(e.currentTarget.value);
+};
+
     return (
          <div css= {css`
          position: fixed;
@@ -23,12 +29,12 @@ const Header = () => {
          border-bottom: 1px solid ${gray5};
          box-shadow: 0 3px 7px 0 rgba(110, 112, 114, 0.21);
          `}>
-<a href = "./" css={css`
+<Link to = "/" css={css`
 font-size: 24px;
 font-weight: bold;
 color: ${gray1};
 text-decoration: none;
-`}> Q and A</a>
+`}> Q and A</Link>
 
 <input type = "text" placeholder = "Search......   " css={css`
 box-sizing: border-box;
@@ -44,8 +50,8 @@ height: 30px;
 :focus {
 outline-color: ${gray5};
 }
-`}/>
-<a href = "/signin" css={css`
+`} onChange={handleSearchInputChange}/>
+<Link to = "/signin" css={css`
 font-family: ${fontFamily};
 font-size: ${fontSize};
 padding: 5px 10px;
@@ -60,7 +66,7 @@ outline-color: ${gray5};
 }
 `}>
     <UserIcon />
-    <span>Sign in</span></a>
+    <span>Sign in</span></Link>
          </div>
     )
     

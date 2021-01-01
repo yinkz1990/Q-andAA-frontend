@@ -5,6 +5,7 @@ import React from "react"
 import { css, jsx } from '@emotion/core';
 import { QuestionData } from './QuestionData';
 import { gray2, gray3 } from './style';
+import { Link } from 'react-router-dom';
 
 
 interface Props {
@@ -26,7 +27,13 @@ interface Props {
         font-size: 19px;
         `}
         >
-        {data.title}
+        <Link
+            css={css`
+            text-decoration: none;
+            color: ${gray2};`}
+            to={`questions/${data.questionId}`}>
+            {data.title}
+        </Link>
         </div>
         {showContent && ( <div
 css={css`

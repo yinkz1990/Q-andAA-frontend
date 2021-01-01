@@ -7,11 +7,14 @@ import { QuestionList } from './QuestionList';
 import { getUnansweredQuestions, QuestionData} from './QuestionData';
 import { Page } from "./Page";
 import { PageTitle } from './PageTitle';
+import { RouteComponentProps } from 'react-router-dom';
+import { FC } from 'react';
 
 
-export const Homepage = () => {
+export const Homepage:FC<RouteComponentProps> = ({history}) => {
     const [questions, setQuestions] = useState<QuestionData[] | null>(null);
     const [questionsLoading, setQuestionsLoading] = useState(true);
+    
 
     useEffect(  () => {
         const doGetUnansweredQuestions = async () => {
@@ -22,7 +25,13 @@ export const Homepage = () => {
         }; 
           doGetUnansweredQuestions();
 
+          
+
     }, []);
+   const handleAskQuestionClick = () => {
+       history.push("/ask");
+
+    }
     return (
         <Page>
         <div css={css`
@@ -39,7 +48,7 @@ justify-content: space-between;
 <PageTitle>
     Unanswered Questions
 </PageTitle>
-<PrimaryButton>Ask a question</PrimaryButton>
+<PrimaryButton onClick = {handleAskQuestionClick}>Ask a question</PrimaryButton>
             </div>
              {questionsLoading ? (
 <div css={css`

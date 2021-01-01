@@ -13,6 +13,7 @@ interface Props {
 }
 
 export const QuestionList: React.FC<Props> = ({data, renderItem}) => {
+  
   return (
     <ul
 css={css`

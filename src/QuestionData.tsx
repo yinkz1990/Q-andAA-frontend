@@ -19,6 +19,7 @@ export interface AnswerData {
         return new Promise(resolve => setTimeout(resolve, ms));
         };
     
+    
     const questions: QuestionData[] = [
         {
         questionId: 1,
@@ -36,8 +37,7 @@ export interface AnswerData {
     },
     {
     answerId: 2,
-    content:
-    'So, that you can use the JavaScript features of tomorrow, today',
+    content: 'So, that you can use the JavaScript features of tomorrow, today',
     userName: 'Fred',
     created: new Date(),
     },
@@ -46,8 +46,7 @@ export interface AnswerData {
     {
     questionId: 2,
     title: 'Which state management tool should I use?',
-    content:
-    'There seem to be a fair few state management tools around for React - React, Unstated, ... Which one should I use?',
+    content: 'There seem to be a fair few state management tools around for React - React, Unstated,... Which one should I use?',
     userName: 'Bob',
     created: new Date(),
     answers: [],
@@ -58,3 +57,16 @@ export interface AnswerData {
         await wait(500);
         return questions.filter(q => q.answers.length === 0);
         };
+
+    export const getQuestion = async (questionId: number): Promise<QuestionData | null> => {
+            await wait(500);
+            const results = questions.filter(q => q.questionId === questionId);
+            return results.length === 0 ? null : results[0];
+            };
+
+
+    export const searchQuestions = async (criteria: string,): Promise<QuestionData[]> => {
+                await wait(500);
+                return questions.filter( q => q.title.toLowerCase().indexOf(criteria.toLowerCase()) >=
+                0 || q.content.toLowerCase().indexOf(criteria.toLowerCase()) >= 0, );
+                };
