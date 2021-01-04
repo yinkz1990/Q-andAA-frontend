@@ -4,7 +4,7 @@
 //import { jsx } from 'theme-ui';
 import { css, jsx } from '@emotion/core';
 import React from 'react';
-import Header from "./Header";
+import {HeaderWithRouter} from "./Header";
 import {Homepage} from "./Homepage";
 import { fontFamily, fontSize, gray2,} from './style';
 import {BrowserRouter, Route, Redirect, Switch} from "react-router-dom";
@@ -29,7 +29,7 @@ const App: React.FC = () => {
   `}
   >
       <header>
-        <Header />
+        <HeaderWithRouter  />
         <Switch>
         <Redirect from="/home" to="/" />
         <Route exact path="/" component={Homepage} />

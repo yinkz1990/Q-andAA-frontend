@@ -32,6 +32,7 @@ export const Homepage:FC<RouteComponentProps> = ({history}) => {
        history.push("/ask");
 
     }
+
     return (
         <Page>
         <div css={css`

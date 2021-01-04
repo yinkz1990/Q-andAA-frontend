@@ -9,6 +9,8 @@ import { RouteComponentProps } from 'react-router-dom';
 import {  useState, Fragment, useEffect } from 'react';
 import { QuestionData, getQuestion } from './QuestionData';
 import {AnswerList} from "./AnswerList";
+import { Form } from './Form';
+import { Field } from './Field';
 
 
 
@@ -71,6 +73,14 @@ export const QuestionPage:FC<RouteComponentProps<RouteParams>> = ({match}) => {
                 ${question.created.toLocaleTimeString()}`}
             </div>
             <AnswerList data={question.answers} />
+
+            <div
+                css={css` margin-top: 20px;`}>
+
+                <Form submitCaption="Submit Your Answer">
+                    <Field name="content" label="Your Answer" type="TextArea" />
+                </Form>
+            </div>
          </Fragment>
         )}
     </div>

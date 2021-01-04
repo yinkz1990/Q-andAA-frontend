@@ -1,20 +1,27 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
-import * as React from 'react';
-import {ChangeEvent} from 'react';
+import  React from 'react';
+import {ChangeEvent, FC, useState} from 'react';
 import { css, jsx } from '@emotion/core';
 import { fontFamily, fontSize, gray1, gray2, gray5 } from './style';
 import { UserIcon } from './icon';
-import { Link } from 'react-router-dom';
+import { Link,RouteComponentProps,withRouter, } from 'react-router-dom';
 
 
 
 
-const Header = () => {
+
+const Header:FC<RouteComponentProps> = ({history, location,}) => {
+    
+    const searchParams = new URLSearchParams(location.search);
+    const criteria = searchParams.get('criteria') || '';
+
+    const [search, setSearch] = useState(criteria);
+
     const handleSearchInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-console.log(e.currentTarget.value);
-};
 
+        setSearch(e.currentTarget.value);
+};
     return (
          <div css= {css`
          position: fixed;
@@ -36,7 +43,8 @@ color: ${gray1};
 text-decoration: none;
 `}> Q and A</Link>
 
-<input type = "text" placeholder = "Search......   " css={css`
+<form><input type = "text" placeholder = "Search...... " value={search}  onChange={handleSearchInputChange} 
+css={css`
 box-sizing: border-box;
 font-family: ${fontFamily};
 font-size: ${fontSize};
@@ -50,7 +58,10 @@ height: 30px;
 :focus {
 outline-color: ${gray5};
 }
-`} onChange={handleSearchInputChange}/>
+`} />
+</form>
+
+
 <Link to = "/signin" css={css`
 font-family: ${fontFamily};
 font-size: ${fontSize};
@@ -72,6 +83,6 @@ outline-color: ${gray5};
     
 }
 
-
+export const HeaderWithRouter = withRouter(Header);
 
 export default Header;
