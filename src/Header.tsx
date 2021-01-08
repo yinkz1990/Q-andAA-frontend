@@ -1,7 +1,7 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import  React from 'react';
-import {ChangeEvent, FC, useState} from 'react';
+import {ChangeEvent, FC, useState,FormEvent} from 'react';
 import { css, jsx } from '@emotion/core';
 import { fontFamily, fontSize, gray1, gray2, gray5 } from './style';
 import { UserIcon } from './icon';
@@ -19,9 +19,13 @@ const Header:FC<RouteComponentProps> = ({history, location,}) => {
     const [search, setSearch] = useState(criteria);
 
     const handleSearchInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-
         setSearch(e.currentTarget.value);
-};
+    };
+
+    const handleSearchSubmit = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        history.push(`/search?criteria=${search}`);
+    };
     return (
          <div css= {css`
          position: fixed;
@@ -43,7 +47,7 @@ color: ${gray1};
 text-decoration: none;
 `}> Q and A</Link>
 
-<form><input type = "text" placeholder = "Search...... " value={search}  onChange={handleSearchInputChange} 
+<form onSubmit={handleSearchSubmit}><input type = "text" placeholder = "Search...... " value={search}  onChange={handleSearchInputChange} 
 css={css`
 box-sizing: border-box;
 font-family: ${fontFamily};
@@ -85,4 +89,3 @@ outline-color: ${gray5};
 
 export const HeaderWithRouter = withRouter(Header);
 
-export default Header;

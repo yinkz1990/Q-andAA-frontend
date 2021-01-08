@@ -7,9 +7,9 @@ import { Page } from './Page';
 import {FC} from "react";
 import { RouteComponentProps } from 'react-router-dom';
 import {  useState, Fragment, useEffect } from 'react';
-import { QuestionData, getQuestion } from './QuestionData';
+import { QuestionData, getQuestion, postAnswer} from './QuestionData';
 import {AnswerList} from "./AnswerList";
-import { Form } from './Form';
+import { Form, required, minLength,Values } from './Form';
 import { Field } from './Field';
 
 
@@ -32,7 +32,14 @@ export const QuestionPage:FC<RouteComponentProps<RouteParams>> = ({match}) => {
         doGetQuestion(questionId);
         }
         }, [match.params.questionId]);
-
+    const handleSubmit = async (values: Values) => {
+        const result = await postAnswer({
+               questionId: question!.questionId, //the non-null assertion operator(!) says that the question cannot be null or undefined
+               content: values.content,
+               userName: 'Fred', 
+               created: new Date()});
+            return { success: result ? true : false };
+            };
  return (
 <Page>
     <div
@@ -77,8 +84,16 @@ export const QuestionPage:FC<RouteComponentProps<RouteParams>> = ({match}) => {
             <div
                 css={css` margin-top: 20px;`}>
 
-                <Form submitCaption="Submit Your Answer">
-                    <Field name="content" label="Your Answer" type="TextArea" />
+                <Form submitCaption="Submit Your Answer" validationRules={{
+                    content: [ { validator: required }, { validator: minLength, arg: 50 }
+                                ] }}           
+                    onSubmit={handleSubmit}
+                    failureMessage="There was a problem with your answer"
+                    successMessage="Your answer was successfully submitted"
+                    >
+
+                    <Field name="content" label="Your Answer" type="TextArea"  />
+                    
                 </Form>
             </div>
          </Fragment>

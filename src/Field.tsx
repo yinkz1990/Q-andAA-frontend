@@ -13,18 +13,30 @@ interface Props {
 
 export const Field: FC<Props> = ({ name, label, type = 'Text',}) => {
     
-    const { setValue } = useContext(FormContext);  // reference to the context value
+    const { setValue,touched, setTouched, validate } = useContext(FormContext);  // reference to the context value
 
     const handleChange = ( e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => {
         if (setValue) {
         setValue(name, e.currentTarget.value);
+            }
+        if (touched[name]) {
+                if (validate) 
+                    {validate(name);
+                    }
+                            }
+        };
+
+    const handleBlur = () => {
+            if (setTouched) {setTouched(name);}
+            if (validate) {
+            validate(name);
             }
         };
     return (
          
         <FormContext.Consumer>
             
-            { ({values}) => ( //destructured values from the context
+            { ({values, errors}) => ( //destructured values from the context
                 
                 <div
                 css={css` display: flex; flex-direction: column; margin-bottom: 15px;`}>
@@ -41,7 +53,7 @@ export const Field: FC<Props> = ({ name, label, type = 'Text',}) => {
                     values[name] === undefined  // using the context value to set a controlled elememt
                     ? ''
                     : values[name]
-                    } css={baseCSS} onChange = {handleChange}/>)
+                    } css={baseCSS} onChange = {handleChange} onBlur={handleBlur}/>)
                     }
 
                 {type === 'TextArea' && (<textarea id={name} value={    
@@ -49,9 +61,18 @@ export const Field: FC<Props> = ({ name, label, type = 'Text',}) => {
                         ? ''
                         :values[name]
                         } css={css` ${baseCSS};  height: 100px;`}
-                 onChange = {handleChange}/>
+                 onChange = {handleChange} onBlur={handleBlur}/>
                 )}
+
+                {errors[name] && errors[name].length > 0 &&
+                    errors[name].map(error => (
+                <div key={error} css={css`
+                font-size: 12px;
+                color: red;`}>
+                    {error}
                 </div>
+                ))}
+                                </div>
             )}
 
             </FormContext.Consumer>
